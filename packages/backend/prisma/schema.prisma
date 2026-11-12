@@ -135,6 +135,11 @@ model Release {
   isDistributionPaid   Boolean    @default(false)
   distributionFeeXOF   Int        @default(2000)
 
+  // Pilier Prévente (J-14 à J-7 avant sortie officielle)
+  isPreOrder           Boolean    @default(false)
+  preOrderStartDate    DateTime?
+  officialReleaseDate  DateTime?
+
   tracks Track[]
   orders Order[]
 
@@ -155,6 +160,7 @@ model Track {
   priceXOF         Int            @default(200) // Prix en FCFA (ex: 200 F)
   audioMasterUrl   String         // Fichier complet protégé
   audioPreviewUrl  String         // Extrait public (30s)
+  isPreOrder       Boolean        @default(false)
   
   streamCount      Int            @default(0)
   saleCount        Int            @default(0)

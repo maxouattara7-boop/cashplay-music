@@ -12,6 +12,12 @@ export const appConfig = {
   
   // Seuil minimal de retrait pour artistes et labels (en FCFA)
   minPayoutAmount: 500,
+
+  // Modèle économique officiel CashPlay Music
+  commission: {
+    platformPercent: 20, // 20% commission prélevée par CashPlay Music
+    creatorPercent: 80,  // 80% reversés à l'artiste ou partagés avec son label
+  },
   
   // Grille tarifaire officielle du cahier des charges CashPlay Music
   pricing: {

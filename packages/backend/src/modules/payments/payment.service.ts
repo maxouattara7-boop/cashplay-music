@@ -118,13 +118,15 @@ export class PaymentService {
           data: { saleCount: { increment: 1 } },
         });
 
-        // Créditer le créateur (Artiste ou Label)
+        // Créditer le créateur (Artiste ou Label) selon la commission officielle : 20% CashPlay / 80% Ayants droit
         if (order.track.artistId) {
-          // Commission artiste (ex: 80% artiste / 20% plateforme)
-          const artistShare = Math.floor(order.amountXOF * 0.85);
+          const creatorShare = Math.floor(
+            (order.amountXOF * appConfig.commission.creatorPercent) / 100
+          ); // 80% officiel
+
           await prisma.artistProfile.update({
             where: { id: order.track.artistId },
-            data: { withdrawableXOF: { increment: artistShare } },
+            data: { withdrawableXOF: { increment: creatorShare } },
           });
         }
       }

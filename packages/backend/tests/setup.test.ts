@@ -7,6 +7,8 @@ describe('Configuration et Environnement du Backend', () => {
     expect(appConfig.appName).toBe('CashPlay Music API');
     expect(appConfig.port).toBe(4000);
     expect(appConfig.minPayoutAmount).toBe(500); // 500 FCFA minimum requis par le cahier des charges
+    expect(appConfig.commission.platformPercent).toBe(20); // 20% commission CashPlay
+    expect(appConfig.commission.creatorPercent).toBe(80);  // 80% reversés aux artistes/labels
   });
 
   it('doit exposer les tarifs officiels de distribution', () => {

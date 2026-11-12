@@ -9,6 +9,9 @@ export interface CreateReleaseDTO {
   coverUrl: string;
   description?: string;
   isGlobalDistribution?: boolean;
+  isPreOrder?: boolean;
+  preOrderStartDate?: string | Date;
+  officialReleaseDate?: string | Date;
 }
 
 export class ReleaseService {
@@ -61,6 +64,9 @@ export class ReleaseService {
         coverUrl: data.coverUrl,
         description: data.description,
         isGlobalDistribution: Boolean(data.isGlobalDistribution),
+        isPreOrder: Boolean(data.isPreOrder),
+        preOrderStartDate: data.preOrderStartDate ? new Date(data.preOrderStartDate) : null,
+        officialReleaseDate: data.officialReleaseDate ? new Date(data.officialReleaseDate) : null,
         distributionFeeXOF: fee,
         isDistributionPaid: false,
         artistId,

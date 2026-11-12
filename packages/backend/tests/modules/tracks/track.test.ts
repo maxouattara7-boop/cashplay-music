@@ -68,4 +68,30 @@ describe('Module Catalogue & Gestion des Titres', () => {
     expect(response.body.release.distributionFeeXOF).toBe(2600); // 2000 + 30% = 2600 FCFA
     expect(response.body.release.isGlobalDistribution).toBe(true);
   });
+
+  it('doit supporter la création d un projet en prévente (J-14 à J-7 avant sortie)', async () => {
+    vi.spyOn(prisma.artistProfile, 'findUnique').mockResolvedValue({
+      id: 'artist-profile-1',
+      userId: 'artist-user-1',
+    } as any);
+
+    const officialDate = new Date(Date.now() + 14 * 24 * 3600 * 1000).toISOString();
+
+    const response = await request(app)
+      .post('/api/v1/releases')
+      .set('Authorization', `Bearer ${artistToken}`)
+      .send({
+        title: 'Single Exclusif Prévente',
+        type: ReleaseType.SINGLE,
+        genre: 'Afrobeat',
+        coverUrl: 'https://cdn.cashplay.africa/covers/exclu.jpg',
+        isPreOrder: true,
+        preOrderStartDate: new Date().toISOString(),
+        officialReleaseDate: officialDate,
+      });
+
+    expect(response.status).toBe(201);
+    expect(response.body.release.isPreOrder).toBe(true);
+    expect(response.body.release.officialReleaseDate).toBeDefined();
+  });
 });
