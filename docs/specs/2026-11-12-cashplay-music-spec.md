@@ -14,9 +14,11 @@ En Afrique de l'Ouest (notamment au Burkina Faso et dans l'espace UEMOA), le mar
 
 **CashPlay Music** comble ce fossé en fournissant un écosystème tout-en-un réunissant :
 1. **La vente directe et le streaming** avec paiement instantané par Mobile Money (Orange Money, Moov Money, Wave) et Cartes Bancaires.
-2. **Une distribution accessible aux artistes indépendants et aux labels** sans abonnement annuel obligatoire pour les artistes (paiement à l'acte), et un forfait label annuel dédié.
-3. **Une protection anti-piratage** avec écoute in-app et téléchargement hors-ligne sécurisé (à l'image d'Empire Afrique).
-4. **Une accessibilité multi-supports** : Web réactif + Application Mobile native (Android & iOS).
+2. **La prévente musicale (J-14 à J-7 avant sortie officielle)** pour mobiliser les communautés, générer des achats anticipés et financer les artistes avant le Jour J.
+3. **Une distribution accessible aux artistes indépendants et aux labels** sans abonnement annuel obligatoire pour les artistes (paiement à l'acte), et un forfait label annuel dédié.
+4. **Une rémunération équitable et transparente :** prélèvement officiel d'une **commission de 20 %** pour CashPlay Music et **reversion de 80 %** aux ayants droit (Artistes / Labels).
+5. **Une protection anti-piratage** avec écoute in-app et téléchargement hors-ligne sécurisé (à l'image d'Empire Afrique).
+6. **Une accessibilité multi-supports** : Web réactif + Application Mobile native (Android & iOS).
 
 ### 1.2 Identité Visuelle & Charte Graphique (Conforme au Brandboard CashPlay Music)
 - **Palette Couleurs :**
