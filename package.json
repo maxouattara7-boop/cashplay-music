@@ -1,0 +1,24 @@
+{
+  "name": "cashplay-music",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CashPlay Music - Plateforme de distribution, de vente directe et de streaming musical en Afrique",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "npm run test --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "dev:backend": "npm run dev --workspace=packages/backend"
+  },
+  "keywords": [
+    "music",
+    "streaming",
+    "africa",
+    "burkina-faso",
+    "mobile-money",
+    "saspay"
+  ],
+  "author": "CashPlay Music",
+  "license": "UNLICENSED"
+}
