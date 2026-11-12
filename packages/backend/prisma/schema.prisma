@@ -1,0 +1,235 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum UserRole {
+  AUDITOR
+  ARTIST
+  LABEL
+  ADMIN
+}
+
+enum ReleaseType {
+  SINGLE
+  EP
+  ALBUM
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum PayoutStatus {
+  PENDING
+  APPROVED
+  PAID
+  REJECTED
+}
+
+enum PaymentProvider {
+  SASPAY
+}
+
+model User {
+  id           String    @id @default(uuid())
+  email        String?   @unique
+  phone        String?   @unique
+  passwordHash String?
+  googleId     String?   @unique
+  fullName     String
+  avatarUrl    String?
+  role         UserRole  @default(AUDITOR)
+  isVerified   Boolean   @default(false)
+  referralCode String    @unique @default(uuid())
+  
+  artistProfile ArtistProfile?
+  labelProfile  LabelProfile?
+
+  orders          Order[]
+  purchasedTracks PurchasedTrack[]
+  affiliations    Affiliation[]    @relation("Referrer")
+  referredBy      Affiliation?     @relation("ReferredUser")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([role])
+}
+
+model ArtistProfile {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stageName       String
+  bio             String?  @db.Text
+  photoProUrl     String?
+  socialLinks     Json?    // Ex: { instagram: "...", facebook: "...", youtube: "..." }
+  isClaimed       Boolean  @default(true)
+  withdrawableXOF Int      @default(0) // Solde disponible en FCFA
+
+  releases Release[]
+  tracks   Track[]
+
+  labelRelations LabelArtistRelation[]
+  payouts        Payout[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model LabelProfile {
+  id                      String    @id @default(uuid())
+  userId                  String    @unique
+  user                    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  labelName               String
+  subscriptionExpiresAt   DateTime?
+  isSubscriptionActive    Boolean   @default(false)
+  withdrawableXOF         Int       @default(0)
+
+  artistRelations LabelArtistRelation[]
+  releases        Release[]
+  payouts         Payout[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model LabelArtistRelation {
+  id             String        @id @default(uuid())
+  labelId        String
+  label          LabelProfile  @relation(fields: [labelId], references: [id], onDelete: Cascade)
+  artistId       String
+  artist         ArtistProfile @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  artistSplitPct Int           @default(50) // Pourcentage de gains reversé à l'artiste
+  labelSplitPct  Int           @default(50) // Pourcentage de gains conservé par le label
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([labelId, artistId])
+}
+
+model Release {
+  id                 String        @id @default(uuid())
+  title              String
+  type               ReleaseType
+  coverUrl           String
+  description        String?       @db.Text
+  genre              String
+  releaseDate        DateTime      @default(now())
+  
+  artistId           String?
+  artist             ArtistProfile? @relation(fields: [artistId], references: [id], onDelete: SetNull)
+  labelId            String?
+  label              LabelProfile?  @relation(fields: [labelId], references: [id], onDelete: SetNull)
+
+  isGlobalDistribution Boolean    @default(false) // Option +30% sur 150+ plateformes
+  isDistributionPaid   Boolean    @default(false)
+  distributionFeeXOF   Int        @default(2000)
+
+  tracks Track[]
+  orders Order[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Track {
+  id               String         @id @default(uuid())
+  releaseId        String
+  release          Release        @relation(fields: [releaseId], references: [id], onDelete: Cascade)
+  artistId         String?
+  artist           ArtistProfile? @relation(fields: [artistId], references: [id], onDelete: SetNull)
+
+  title            String
+  durationSeconds  Int
+  trackNumber      Int            @default(1)
+  priceXOF         Int            @default(200) // Prix en FCFA (ex: 200 F)
+  audioMasterUrl   String         // Fichier complet protégé
+  audioPreviewUrl  String         // Extrait public (30s)
+  
+  streamCount      Int            @default(0)
+  saleCount        Int            @default(0)
+
+  purchases PurchasedTrack[]
+  orders    Order[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id              String          @id @default(uuid())
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  trackId         String?
+  track           Track?          @relation(fields: [trackId], references: [id], onDelete: SetNull)
+  releaseId       String?
+  release         Release?        @relation(fields: [releaseId], references: [id], onDelete: SetNull)
+
+  amountXOF       Int
+  provider        PaymentProvider @default(SASPAY)
+  providerRef     String?         @unique
+  status          PaymentStatus   @default(PENDING)
+  paymentMethod   String?         // ORANGE_MONEY, MOOV_MONEY, WAVE, CARD
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+}
+
+model PurchasedTrack {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  trackId   String
+  track     Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  pricePaid Int
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, trackId])
+}
+
+model Payout {
+  id              String        @id @default(uuid())
+  amountXOF       Int           // Doit être >= 500 F CFA
+  artistId        String?
+  artist          ArtistProfile? @relation(fields: [artistId], references: [id], onDelete: SetNull)
+  labelId         String?
+  label           LabelProfile?  @relation(fields: [labelId], references: [id], onDelete: SetNull)
+
+  phoneNumber     String        // Numéro de retrait Mobile Money
+  paymentMethod   String        // ORANGE_MONEY, MOOV_MONEY, WAVE
+  status          PayoutStatus  @default(PENDING)
+  processedAt     DateTime?
+  rejectionReason String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+}
+
+model Affiliation {
+  id                   String   @id @default(uuid())
+  referrerId           String
+  referrer             User     @relation("Referrer", fields: [referrerId], references: [id], onDelete: Cascade)
+  referredUserId       String   @unique
+  referredUser         User     @relation("ReferredUser", fields: [referredUserId], references: [id], onDelete: Cascade)
+
+  hasPurchased         Boolean  @default(false)
+  rewardClaimed        Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
