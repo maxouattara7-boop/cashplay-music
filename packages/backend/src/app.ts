@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import { appConfig } from './config/env';
 import { authRouter } from './modules/auth/auth.controller';
 import { trackRouter, releaseRouter } from './modules/tracks/track.controller';
+import { paymentRouter } from './modules/payments/payment.controller';
 
 export const createApp = (): Express => {
   const app = express();
@@ -28,6 +29,7 @@ export const createApp = (): Express => {
   app.use(`${appConfig.apiPrefix}/auth`, authRouter);
   app.use(`${appConfig.apiPrefix}/tracks`, trackRouter);
   app.use(`${appConfig.apiPrefix}/releases`, releaseRouter);
+  app.use(`${appConfig.apiPrefix}/payments`, paymentRouter);
 
   return app;
 };
