@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import { appConfig } from './config/env';
+import { authRouter } from './modules/auth/auth.controller';
 
 export const createApp = (): Express => {
   const app = express();
@@ -21,6 +22,9 @@ export const createApp = (): Express => {
       version: '1.0.0'
     });
   });
+
+  // Modules API v1
+  app.use(`${appConfig.apiPrefix}/auth`, authRouter);
 
   return app;
 };
