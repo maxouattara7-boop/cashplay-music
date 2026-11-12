@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import { appConfig } from './config/env';
 import { authRouter } from './modules/auth/auth.controller';
+import { trackRouter, releaseRouter } from './modules/tracks/track.controller';
 
 export const createApp = (): Express => {
   const app = express();
@@ -25,6 +26,8 @@ export const createApp = (): Express => {
 
   // Modules API v1
   app.use(`${appConfig.apiPrefix}/auth`, authRouter);
+  app.use(`${appConfig.apiPrefix}/tracks`, trackRouter);
+  app.use(`${appConfig.apiPrefix}/releases`, releaseRouter);
 
   return app;
 };
