@@ -34,11 +34,11 @@
 - *Produit :* Structure de build, linting et scripts de test unifiés (`npm run test`, `npm run dev`).
 
 **Étapes d'exécution :**
-- [ ] **Étape 1 : Écrire le test unitaire de validation de l'environnement** (`setup.test.ts` vérifie les variables d'environnement requises et la disponibilité de l'application).
-- [ ] **Étape 2 : Exécuter le test et constater l'échec initial** (`npx vitest run packages/backend/tests/setup.test.ts`).
-- [ ] **Étape 3 : Créer les fichiers de configuration de base du monorepo et du package backend**.
-- [ ] **Étape 4 : Confirmer le passage au vert du test d'initialisation**.
-- [ ] **Étape 5 : Valider la conformité de l'arborescence**.
+- [x] **Étape 1 : Écrire le test unitaire de validation de l'environnement** (`setup.test.ts` vérifie les variables d'environnement requises et la disponibilité de l'application).
+- [x] **Étape 2 : Exécuter le test et constater l'échec initial** (`npx vitest run packages/backend/tests/setup.test.ts`).
+- [x] **Étape 3 : Créer les fichiers de configuration de base du monorepo et du package backend**.
+- [x] **Étape 4 : Confirmer le passage au vert du test d'initialisation**.
+- [x] **Étape 5 : Valider la conformité de l'arborescence**.
 
 ---
 
@@ -53,11 +53,11 @@
 - *Produit :* Modèles typés Prisma Client : `User`, `ArtistProfile`, `LabelProfile`, `Release`, `Track`, `Transaction`, `Payout`, `Affiliation`.
 
 **Étapes d'exécution :**
-- [ ] **Étape 1 : Rédiger le test de validation du schéma Prisma** (vérifie l'existence et les types des champs clés : rôles enum, calcul des splits label/artiste, statuts de transaction).
-- [ ] **Étape 2 : Exécuter le test et constater l'échec** (`npx vitest run packages/backend/tests/database/schema.test.ts`).
-- [ ] **Étape 3 : Rédiger le fichier `schema.prisma` avec toutes les tables, contraintes relationnelles et indexes d'optimisation**.
-- [ ] **Étape 4 : Générer le client Prisma (`npx prisma generate`) et valider le test unitaire**.
-- [ ] **Étape 5 : Refactoriser et valider la cohérence des clés étrangères**.
+- [x] **Étape 1 : Rédiger le test de validation du schéma Prisma** (vérifie l'existence et les types des champs clés : rôles enum, calcul des splits label/artiste, statuts de transaction).
+- [x] **Étape 2 : Exécuter le test et constater l'échec** (`npx vitest run packages/backend/tests/database/schema.test.ts`).
+- [x] **Étape 3 : Rédiger le fichier `schema.prisma` avec toutes les tables, contraintes relationnelles et indexes d'optimisation**.
+- [x] **Étape 4 : Générer le client Prisma (`npx prisma generate`) et valider le test unitaire**.
+- [x] **Étape 5 : Refactoriser et valider la cohérence des clés étrangères**.
 
 ---
 
@@ -78,11 +78,11 @@
   - `GET /api/v1/auth/me` (Profil enrichi avec statut et balance financière)
 
 **Étapes d'exécution :**
-- [ ] **Étape 1 : Écrire les tests unitaires et d'intégration de l'authentification** (inscription auditeur, inscription label, login invalide, génération JWT).
-- [ ] **Étape 2 : Vérifier l'échec des tests**.
-- [ ] **Étape 3 : Implémenter le service d'authentification avec hashage sécurisé (Argon2 / Bcrypt) et signature JWT**.
-- [ ] **Étape 4 : Confirmer le passage des tests au vert**.
-- [ ] **Étape 5 : Valider la protection des routes par le guard de rôles**.
+- [x] **Étape 1 : Écrire les tests unitaires et d'intégration de l'authentification** (inscription auditeur, inscription label, login invalide, génération JWT).
+- [x] **Étape 2 : Vérifier l'échec des tests**.
+- [x] **Étape 3 : Implémenter le service d'authentification avec hashage sécurisé (Argon2 / Bcrypt) et signature JWT**.
+- [x] **Étape 4 : Confirmer le passage des tests au vert**.
+- [x] **Étape 5 : Valider la protection des routes par le guard de rôles**.
 
 ---
 
@@ -103,10 +103,10 @@
   - `GET /api/v1/tracks/:id/stream-full` (Flux complet sécurisé pour utilisateur ayant acheté le titre)
 
 **Étapes d'exécution :**
-- [ ] **Étape 1 : Écrire les tests du cycle de vie d'un morceau** (calcul de durée, vérification taille max 10 Mo, génération d'extrait audio court, restriction d'accès au son complet).
-- [ ] **Étape 2 : Vérifier l'échec des tests**.
-- [ ] **Étape 3 : Implémenter la validation audio, le stockage S3 et le découpage de l'extrait**.
-- [ ] **Étape 4 : Valider le passage de la suite de tests au vert**.
+- [x] **Étape 1 : Écrire les tests du cycle de vie d'un morceau** (calcul de durée, vérification taille max 10 Mo, génération d'extrait audio court, restriction d'accès au son complet).
+- [x] **Étape 2 : Vérifier l'échec des tests**.
+- [x] **Étape 3 : Implémenter la validation audio, le stockage S3 et le découpage de l'extrait**.
+- [x] **Étape 4 : Valider le passage de la suite de tests au vert**.
 
 ---
 
@@ -125,10 +125,10 @@
   - Calcul et ventilation automatique des commissions (part plateforme, part label, part artiste).
 
 **Étapes d'exécution :**
-- [ ] **Étape 1 : Écrire le test simulant un webhook SasPay réussi et un webhook rejeté** (fausse signature, paiement déjà traité).
-- [ ] **Étape 2 : Vérifier l'échec des tests**.
-- [ ] **Étape 3 : Implémenter le client SasPay, le traitement de la transaction et la mise à jour des portefeuilles virtuels**.
-- [ ] **Étape 4 : Confirmer le passage des tests au vert**.
+- [x] **Étape 1 : Écrire le test simulant un webhook SasPay réussi et un webhook rejeté** (fausse signature, paiement déjà traité).
+- [x] **Étape 2 : Vérifier l'échec des tests**.
+- [x] **Étape 3 : Implémenter le client SasPay, le traitement de la transaction et la mise à jour des portefeuilles virtuels**.
+- [x] **Étape 4 : Confirmer le passage des tests au vert**.
 
 ---
 
@@ -146,10 +146,10 @@
   - `PATCH /api/v1/admin/payouts/:id` (Approbation et exécution du versement par l'admin).
 
 **Étapes d'exécution :**
-- [ ] **Étape 1 : Écrire le test unitaire du contrôle du seuil de retrait** (rejet si solde < 500 F, acceptation et débit si solde >= 500 F).
-- [ ] **Étape 2 : Vérifier l'échec du test**.
-- [ ] **Étape 3 : Implémenter la logique métier de retrait et la mise à jour des soldes**.
-- [ ] **Étape 4 : Valider le passage au vert**.
+- [x] **Étape 1 : Écrire le test unitaire du contrôle du seuil de retrait** (rejet si solde < 500 F, acceptation et débit si solde >= 500 F).
+- [x] **Étape 2 : Vérifier l'échec du test**.
+- [x] **Étape 3 : Implémenter la logique métier de retrait et la mise à jour des soldes**.
+- [x] **Étape 4 : Valider le passage au vert**.
 
 ---
 
@@ -166,10 +166,10 @@
   - Endpoint de consultation des statistiques de parrainage de l'auditeur.
 
 **Étapes d'exécution :**
-- [ ] **Étape 1 : Écrire le test unitaire vérifiant l'attribution du téléchargement gratuit après 5 achats validés**.
-- [ ] **Étape 2 : Vérifier l'échec du test**.
-- [ ] **Étape 3 : Implémenter la détection d'achat premier filleul et l'incrémentation du compteur**.
-- [ ] **Étape 4 : Confirmer le succès des tests**.
+- [x] **Étape 1 : Écrire le test unitaire vérifiant l'attribution du téléchargement gratuit après 5 achats validés**.
+- [x] **Étape 2 : Vérifier l'échec du test**.
+- [x] **Étape 3 : Implémenter la détection d'achat premier filleul et l'incrémentation du compteur**.
+- [x] **Étape 4 : Confirmer le succès des tests**.
 
 ---
 
