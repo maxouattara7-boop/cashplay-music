@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/my-library/layout,_N_T_/my-library/page,_N_T_/my-library"
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/ef36c32b1858771af1f9bd35872e596fe205f71f4649e6df2835257321995fd0/$/my-library",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/my-library/page"
+    },
+    "isFallback": false
+  }
+}

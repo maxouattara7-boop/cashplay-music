@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/dashboard/layout,_N_T_/dashboard/artist/layout,_N_T_/dashboard/artist/page,_N_T_/dashboard/artist"
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/ec70654080a604c182db03313f7d6cd87487a146f40e2a4cd94d4dce3580eada/$/dashboard/artist",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/dashboard/artist/page"
+    },
+    "isFallback": false
+  }
+}

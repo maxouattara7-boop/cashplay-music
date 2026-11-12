@@ -39,10 +39,10 @@
 - *Produit :* Layout global avec Navbar, conteneur de page, typographie Montserrat et variables CSS de marque.
 
 **Étapes d'exécution :**
-- [ ] **Étape 1 : Rédiger le test de validation du thème et des styles de marque**.
-- [ ] **Étape 2 : Vérifier l'échec initial du test**.
-- [ ] **Étape 3 : Initialiser l'application Next.js 15 avec Tailwind CSS et intégration des logos**.
-- [ ] **Étape 4 : Confirmer le passage au vert du test de configuration**.
+- [x] **Étape 1 : Rédiger le test de validation du thème et des styles de marque**.
+- [x] **Étape 2 : Vérifier l'échec initial du test**.
+- [x] **Étape 3 : Initialiser l'application Next.js 15 avec Tailwind CSS et intégration des logos**.
+- [x] **Étape 4 : Confirmer le passage au vert du test de configuration**.
 
 ---
 
@@ -57,10 +57,10 @@
 - *Produit :* `useAudio()` hook (play, pause, next, prev, toggle, seek, volume, isPreview, isPlaying, currentTrack).
 
 **Étapes d'exécution :**
-- [ ] **Étape 1 : Rédiger le test unitaire du contexte audio (état de lecture, gestion de la durée d'extrait)**.
-- [ ] **Étape 2 : Vérifier l'échec initial du test**.
-- [ ] **Étape 3 : Implémenter le provider `AudioContext` et le composant `AudioPlayer` persistant en bas d'écran**.
-- [ ] **Étape 4 : Valider le passage au vert des tests**.
+- [x] **Étape 1 : Rédiger le test unitaire du contexte audio (état de lecture, gestion de la durée d'extrait)**.
+- [x] **Étape 2 : Vérifier l'échec initial du test**.
+- [x] **Étape 3 : Implémenter le provider `AudioContext` et le composant `AudioPlayer` persistant en bas d'écran**.
+- [x] **Étape 4 : Valider le passage au vert des tests**.
 
 ---
 
@@ -82,10 +82,10 @@
   - Déclencheur automatique du popup de conversion à 30 secondes d'écoute cumulée.
 
 **Étapes d'exécution :**
-- [ ] **Étape 1 : Rédiger le test de détection du popup à 30 secondes et d'affichage des préventes**.
-- [ ] **Étape 2 : Vérifier l'échec initial du test**.
-- [ ] **Étape 3 : Développer la page d'accueil avec Tailwind CSS et le composant `ConversionPopup`**.
-- [ ] **Étape 4 : Valider le passage au vert**.
+- [x] **Étape 1 : Rédiger le test de détection du popup à 30 secondes et d'affichage des préventes**.
+- [x] **Étape 2 : Vérifier l'échec initial du test**.
+- [x] **Étape 3 : Développer la page d'accueil avec Tailwind CSS et le composant `ConversionPopup`**.
+- [x] **Étape 4 : Valider le passage au vert**.
 
 ---
 
@@ -100,10 +100,10 @@
 - *Produit :* Onglet Connexion / Inscription avec sélecteur de rôle (Auditeur, Artiste, Label), stockage token et affichage du profil dans la barre de navigation.
 
 **Étapes d'exécution :**
-- [ ] **Étape 1 : Écrire le test d'intégration de connexion et d'inscription**.
-- [ ] **Étape 2 : Vérifier l'échec du test**.
-- [ ] **Étape 3 : Implémenter le composant `AuthModal` et le provider `AuthContext`**.
-- [ ] **Étape 4 : Confirmer le succès des tests**.
+- [x] **Étape 1 : Écrire le test d'intégration de connexion et d'inscription**.
+- [x] **Étape 2 : Vérifier l'échec du test**.
+- [x] **Étape 3 : Implémenter le composant `AuthModal` et le provider `AuthContext`**.
+- [x] **Étape 4 : Confirmer le succès des tests**.
 
 ---
 
@@ -117,10 +117,10 @@
 - *Produit :* Sélecteur de méthode (Orange Money, Moov Money, Wave, Carte Bancaire), redirection checkout ou confirmation de paiement.
 
 **Étapes d'exécution :**
-- [ ] **Étape 1 : Écrire le test d'initiation d'achat de titre**.
-- [ ] **Étape 2 : Vérifier l'échec du test**.
-- [ ] **Étape 3 : Implémenter le flux d'achat interactif SasPay**.
-- [ ] **Étape 4 : Valider le passage au vert**.
+- [x] **Étape 1 : Écrire le test d'initiation d'achat de titre**.
+- [x] **Étape 2 : Vérifier l'échec du test**.
+- [x] **Étape 3 : Implémenter le flux d'achat interactif SasPay**.
+- [x] **Étape 4 : Valider le passage au vert**.
 
 ---
 
@@ -140,10 +140,10 @@
   - Demande de retrait Mobile Money (seuil 500 FCFA).
 
 **Étapes d'exécution :**
-- [ ] **Étape 1 : Écrire le test de validation du formulaire de distribution**.
-- [ ] **Étape 2 : Vérifier l'échec du test**.
-- [ ] **Étape 3 : Implémenter les interfaces de gestion créateurs**.
-- [ ] **Étape 4 : Confirmer la réussite des tests**.
+- [x] **Étape 1 : Écrire le test de validation du formulaire de distribution**.
+- [x] **Étape 2 : Vérifier l'échec du test**.
+- [x] **Étape 3 : Implémenter les interfaces de gestion créateurs**.
+- [x] **Étape 4 : Confirmer la réussite des tests**.
 
 ---
 
@@ -161,7 +161,7 @@
   - Bouton de partage WhatsApp / Facebook / Copier lien.
 
 **Étapes d'exécution :**
-- [ ] **Étape 1 : Écrire le test unitaire de la bibliothèque et du parrainage**.
-- [ ] **Étape 2 : Vérifier l'échec initial**.
-- [ ] **Étape 3 : Implémenter la bibliothèque et le module de parrainage viral**.
-- [ ] **Étape 4 : Valider le passage au vert**.
+- [x] **Étape 1 : Écrire le test unitaire de la bibliothèque et du parrainage**.
+- [x] **Étape 2 : Vérifier l'échec initial**.
+- [x] **Étape 3 : Implémenter la bibliothèque et le module de parrainage viral**.
+- [x] **Étape 4 : Valider le passage au vert**.
