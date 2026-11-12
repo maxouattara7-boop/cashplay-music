@@ -5,6 +5,7 @@ import { appConfig } from './config/env';
 import { authRouter } from './modules/auth/auth.controller';
 import { trackRouter, releaseRouter } from './modules/tracks/track.controller';
 import { paymentRouter } from './modules/payments/payment.controller';
+import { payoutRouter } from './modules/payouts/payout.controller';
 
 export const createApp = (): Express => {
   const app = express();
@@ -30,6 +31,7 @@ export const createApp = (): Express => {
   app.use(`${appConfig.apiPrefix}/tracks`, trackRouter);
   app.use(`${appConfig.apiPrefix}/releases`, releaseRouter);
   app.use(`${appConfig.apiPrefix}/payments`, paymentRouter);
+  app.use(`${appConfig.apiPrefix}/payouts`, payoutRouter);
 
   return app;
 };
