@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "CashPlay Music",
+    "slug": "cashplay-music",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0c0d0e"
+    },
+    "primaryColor": "#008A3B",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "africa.cashplay.music",
+      "infoPlist": {
+        "UIBackgroundModes": ["audio"]
+      }
+    },
+    "android": {
+      "package": "africa.cashplay.music",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#008A3B"
+      },
+      "permissions": [
+        "WAKE_LOCK",
+        "FOREGROUND_SERVICE",
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
+      ]
+    },
+    "plugins": []
+  }
+}
