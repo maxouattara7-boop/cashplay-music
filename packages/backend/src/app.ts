@@ -7,6 +7,7 @@ import { trackRouter, releaseRouter } from './modules/tracks/track.controller';
 import { paymentRouter } from './modules/payments/payment.controller';
 import { payoutRouter } from './modules/payouts/payout.controller';
 import { affiliationRouter } from './modules/affiliations/affiliation.controller';
+import { adminRouter } from './modules/admin/admin.controller';
 
 export const createApp = (): Express => {
   const app = express();
@@ -34,6 +35,7 @@ export const createApp = (): Express => {
   app.use(`${appConfig.apiPrefix}/payments`, paymentRouter);
   app.use(`${appConfig.apiPrefix}/payouts`, payoutRouter);
   app.use(`${appConfig.apiPrefix}/affiliations`, affiliationRouter);
+  app.use(`${appConfig.apiPrefix}/admin`, adminRouter);
 
   return app;
 };
