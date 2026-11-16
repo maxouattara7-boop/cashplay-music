@@ -57,7 +57,9 @@ export default function App() {
               />
             )}
             {activeTab === 'library' && <LibraryScreen />}
-            {activeTab === 'profile' && <ProfileScreen />}
+            {activeTab === 'profile' && (
+              <ProfileScreen onNavigateToLibrary={() => setActiveTab('library')} />
+            )}
           </View>
 
           {/* Mini Lecteur Audio Flottant style Empire Afrique */}

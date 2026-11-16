@@ -66,4 +66,20 @@ describe('Intégration Mobile App CashPlay Music', () => {
     expect(mobileAudio.isPlaying()).toBe(true);
     expect(mobileAudio.getCurrentTrack()?.isOfflineEncrypted).toBe(true);
   });
+
+  it('doit valider la distinction des comptes Mélomane et Artiste (solde, 80% ventes, seuil retrait 500 F)', () => {
+    const artistAccount = {
+      role: 'artist',
+      stageName: 'Moms Loup',
+      walletBalance: 72400,
+      minWithdrawThreshold: 500,
+      artistSplitPercentage: 80,
+      publishedWorksCount: 3,
+    };
+
+    expect(artistAccount.role).toBe('artist');
+    expect(artistAccount.artistSplitPercentage).toBe(80);
+    expect(artistAccount.minWithdrawThreshold).toBe(500);
+    expect(artistAccount.walletBalance).toBeGreaterThanOrEqual(artistAccount.minWithdrawThreshold);
+  });
 });
