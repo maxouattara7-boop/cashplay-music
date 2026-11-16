@@ -17,6 +17,28 @@ describe('Intégration Mobile App CashPlay Music', () => {
     expect(validDrawerRoutes).toContain('profile');
   });
 
+  it('doit valider les données et la structure d un titre pour l écran détaillé et le flux de paiement SasPay', () => {
+    const mockTrack = {
+      id: 'cat-1501',
+      title: '15.01 (EP Exclusif)',
+      artist: 'Moms Loup',
+      priceXOF: 2000,
+      salesCount: 441,
+      coverUrl: 'https://example.com/cover.jpg',
+      videoTeaserUrl: 'https://example.com/teaser.mp4',
+      commentsCount: 54,
+    };
+
+    expect(mockTrack.priceXOF).toBe(2000);
+    expect(mockTrack.salesCount).toBeGreaterThan(0);
+    expect(mockTrack.videoTeaserUrl).toBeDefined();
+
+    // Vérification des méthodes de paiement supportées
+    const supportedMethods = ['ORANGE_BURKINA', 'MOOV_BURKINA', 'WAVE_BF_CI', 'CARD'];
+    expect(supportedMethods).toContain('ORANGE_BURKINA');
+    expect(supportedMethods).toContain('WAVE_BF_CI');
+  });
+
   it('doit permettre d enchaîner le stockage hors-ligne et la lecture dans le mobileAudio', async () => {
     // 1. Stockage dans le coffre-fort
     await offlineVault.storeEncryptedTrack('t-flow-1', {

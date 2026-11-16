@@ -5,74 +5,92 @@ import { CashPlayColors } from './src/theme/colors';
 import { HomeScreen } from './src/screens/HomeScreen';
 import { LibraryScreen } from './src/screens/LibraryScreen';
 import { ProfileScreen } from './src/screens/ProfileScreen';
+import { TrackDetailScreen, TrackDetailData } from './src/screens/TrackDetailScreen';
 import { MiniPlayer } from './src/components/MiniPlayer';
 import { SideDrawer } from './src/components/SideDrawer';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'home' | 'library' | 'profile'>('home');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [selectedTrack, setSelectedTrack] = useState<TrackDetailData | null>(null);
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
 
-      {/* Tiroir latéral inspiré d'Empire Afrique */}
-      <SideDrawer
-        isOpen={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        onNavigate={(tab) => {
-          setActiveTab(tab);
-          setIsDrawerOpen(false);
-        }}
-        user={{
-          name: 'Maxime Ouattara',
-          role: 'Auditeur & Créateur',
-          phone: '+226 70 00 00 00',
-        }}
-      />
-
-      {/* Écran actif */}
-      <View style={styles.screenContainer}>
-        {activeTab === 'home' && (
-          <HomeScreen
-            onOpenDrawer={() => setIsDrawerOpen(true)}
-            onNavigateToLibrary={() => setActiveTab('library')}
-            onNavigateToProfile={() => setActiveTab('profile')}
+      {/* Écran Détail de l'Œuvre (Inspiré de la capture Empire : Plein écran, Teaser vidéo, Prix, Commentaires, Achat VIP & Mobile Money) */}
+      {selectedTrack ? (
+        <TrackDetailScreen
+          track={selectedTrack}
+          onClose={() => setSelectedTrack(null)}
+          onTrackPurchased={(id) => {
+            // Après achat réussi, possibilité de basculer vers Mes Achats
+            setSelectedTrack(null);
+            setActiveTab('library');
+          }}
+        />
+      ) : (
+        <>
+          {/* Tiroir latéral inspiré d'Empire Afrique */}
+          <SideDrawer
+            isOpen={isDrawerOpen}
+            onClose={() => setIsDrawerOpen(false)}
+            onNavigate={(tab) => {
+              setActiveTab(tab);
+              setIsDrawerOpen(false);
+            }}
+            user={{
+              name: 'Maxime Ouattara',
+              role: 'Auditeur & Créateur',
+              phone: '+226 70 00 00 00',
+            }}
           />
-        )}
-        {activeTab === 'library' && <LibraryScreen />}
-        {activeTab === 'profile' && <ProfileScreen />}
-      </View>
 
-      {/* Mini Lecteur Audio Flottant style Empire Afrique */}
-      <MiniPlayer onNavigateToLibrary={() => setActiveTab('library')} />
+          {/* Écran actif */}
+          <View style={styles.screenContainer}>
+            {activeTab === 'home' && (
+              <HomeScreen
+                onOpenDrawer={() => setIsDrawerOpen(true)}
+                onNavigateToLibrary={() => setActiveTab('library')}
+                onNavigateToProfile={() => setActiveTab('profile')}
+                onSelectTrack={(track) => setSelectedTrack(track)}
+              />
+            )}
+            {activeTab === 'library' && <LibraryScreen />}
+            {activeTab === 'profile' && <ProfileScreen />}
+          </View>
 
-      {/* Barre d'onglets de navigation inférieure */}
-      <View style={styles.tabBar}>
-        <TouchableOpacity
-          style={styles.tabItem}
-          onPress={() => setActiveTab('home')}
-        >
-          <Text style={[styles.tabIcon, activeTab === 'home' && styles.tabActive]}>🏠</Text>
-          <Text style={[styles.tabLabel, activeTab === 'home' && styles.tabActive]}>Accueil</Text>
-        </TouchableOpacity>
+          {/* Mini Lecteur Audio Flottant style Empire Afrique */}
+          <MiniPlayer onNavigateToLibrary={() => setActiveTab('library')} />
 
-        <TouchableOpacity
-          style={styles.tabItem}
-          onPress={() => setActiveTab('library')}
-        >
-          <Text style={[styles.tabIcon, activeTab === 'library' && styles.tabActive]}>🎵</Text>
-          <Text style={[styles.tabLabel, activeTab === 'library' && styles.tabActive]}>Mes Achats</Text>
-        </TouchableOpacity>
+          {/* Barre d'onglets de navigation inférieure */}
+          <View style={styles.tabBar}>
+            <TouchableOpacity
+              style={styles.tabItem}
+              onPress={() => setActiveTab('home')}
+            >
+              <Text style={[styles.tabIcon, activeTab === 'home' && styles.tabActive]}>🏠</Text>
+              <Text style={[styles.tabLabel, activeTab === 'home' && styles.tabActive]}>Accueil</Text>
+            </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.tabItem}
-          onPress={() => setActiveTab('profile')}
-        >
-          <Text style={[styles.tabIcon, activeTab === 'profile' && styles.tabActive]}>👤</Text>
-          <Text style={[styles.tabLabel, activeTab === 'profile' && styles.tabActive]}>Mon Compte</Text>
-        </TouchableOpacity>
-      </View>
+            <TouchableOpacity
+              style={styles.tabItem}
+              onPress={() => setActiveTab('library')}
+            >
+              <Text style={[styles.tabIcon, activeTab === 'library' && styles.tabActive]}>🎵</Text>
+              <Text style={[styles.tabLabel, activeTab === 'library' && styles.tabActive]}>Mes Achats</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.tabItem}
+              onPress={() => setActiveTab('profile')}
+            >
+              <Text style={[styles.tabIcon, activeTab === 'profile' && styles.tabActive]}>👤</Text>
+              <Text style={[styles.tabLabel, activeTab === 'profile' && styles.tabActive]}>Mon Compte</Text>
+            </TouchableOpacity>
+          </View>
+        </>
+      )}
     </SafeAreaView>
   );
 }

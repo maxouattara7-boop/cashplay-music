@@ -19,12 +19,14 @@ interface HomeScreenProps {
   onOpenDrawer: () => void;
   onNavigateToLibrary: () => void;
   onNavigateToProfile: () => void;
+  onSelectTrack?: (track: any) => void;
 }
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({
   onOpenDrawer,
   onNavigateToLibrary,
   onNavigateToProfile,
+  onSelectTrack,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearch, setShowSearch] = useState(false);
@@ -256,16 +258,27 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           ))}
         </View>
 
-        {/* 4. GRILLE DE MUSIQUE 2 COLONNES (Inspirée de la capture Empire Afrique) */}
+        {/* 4. GRILLE DE MUSIQUE 2 COLONNES (Inspirée de la capture Empire Afrique - Pochette pure sans bouton Play) */}
         <View style={styles.catalogGrid}>
           {filteredTracks.map((item) => (
-            <View key={item.id} style={styles.trackGridCard}>
-              {/* Pochette avec bouton Play Overlay */}
-              <TouchableOpacity
-                style={styles.coverWrapper}
-                onPress={() => handlePlayTrack(item)}
-                activeOpacity={0.85}
-              >
+            <TouchableOpacity
+              key={item.id}
+              style={styles.trackGridCard}
+              activeOpacity={0.85}
+              onPress={() => {
+                if (onSelectTrack) {
+                  onSelectTrack({
+                    ...item,
+                    priceXOF: 2000,
+                    description: `${item.artist} vous propose cette œuvre exclusive intitulée "${item.title}". Achetez directement par Mobile Money pour soutenir l'artiste.`,
+                  });
+                } else {
+                  handlePlayTrack(item);
+                }
+              }}
+            >
+              {/* Pochette pure sans bouton Play */}
+              <View style={styles.coverWrapper}>
                 <Image source={{ uri: item.coverUrl }} style={styles.coverImage} />
 
                 {/* Badge Prévente si applicable */}
@@ -274,12 +287,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                     <Text style={styles.preOrderCornerText}>J - {item.days}j</Text>
                   </View>
                 )}
-
-                {/* Bouton de lecture rapide circulaire */}
-                <View style={styles.playOverlayButton}>
-                  <Text style={styles.playOverlayIcon}>▶</Text>
-                </View>
-              </TouchableOpacity>
+              </View>
 
               {/* Titre et Artiste (comme '15.01 - Moms Loup') */}
               <View style={styles.trackDetails}>
@@ -295,7 +303,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                   </Text>
                 </View>
               </View>
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
