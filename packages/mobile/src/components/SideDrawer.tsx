@@ -117,10 +117,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
       onRequestClose={onClose}
     >
       <View style={styles.overlay}>
-        {/* Volet cliquable extérieur pour fermer */}
-        <TouchableOpacity style={styles.backdrop} activeOpacity={1} onPress={onClose} />
-
-        {/* Tiroir coulissant latéral avec compensation StatusBar Android */}
+        {/* 1. Tiroir coulissant latéral à GAUCHE (recouvre le logo CashPlay et le bord gauche) */}
         <SafeAreaView style={styles.drawerSafeArea}>
           <View style={styles.drawerContainer}>
             {/* En-tête Profil Utilisateur */}
@@ -171,6 +168,9 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
             </View>
           </View>
         </SafeAreaView>
+
+        {/* 2. Volet transparent extérieur à DROITE pour fermer en touchant l'extérieur */}
+        <TouchableOpacity style={styles.backdrop} activeOpacity={1} onPress={onClose} />
       </View>
     </Modal>
   );
