@@ -7,6 +7,8 @@ import {
   Modal,
   ScrollView,
   SafeAreaView,
+  Platform,
+  StatusBar,
   Linking,
 } from 'react-native';
 import { CashPlayColors } from '../theme/colors';
@@ -30,12 +32,12 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
 }) => {
   if (!isOpen) return null;
 
+  // Liste épurée sans sous-titres verts, avec les libellés demandés
   const menuItems = [
     {
       id: 'offline-player',
       icon: '▶',
       label: 'Mon Lecteur (Hors-Ligne)',
-      badge: 'Chiffré',
       action: () => {
         onClose();
         onNavigate('library');
@@ -45,7 +47,6 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
       id: 'music-sales',
       icon: '🛒',
       label: 'Musiques en vente',
-      badge: 'Single • EP • Album',
       action: () => {
         onClose();
         onNavigate('home');
@@ -54,8 +55,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
     {
       id: 'pre-orders',
       icon: '✨',
-      label: 'Préventes Exclusives (J-14)',
-      badge: 'Inédits',
+      label: 'Préventes Exclusives', // Sans (J-14)
       action: () => {
         onClose();
         onNavigate('home');
@@ -74,7 +74,6 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
       id: 'referrals',
       icon: '🎁',
       label: 'Parrainage & Téléchargement Offert',
-      badge: '5 amis = 1 son',
       action: () => {
         onClose();
         onNavigate('profile');
@@ -83,8 +82,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
     {
       id: 'creator-space',
       icon: '💼',
-      label: 'Espace Artiste / Retraits SasPay',
-      badge: 'Dès 500 F',
+      label: 'Espace Artiste', // Espace Artiste simplement, sans SasPay ni badge
       action: () => {
         onClose();
         onNavigate('profile');
@@ -120,50 +118,49 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
         {/* Volet cliquable extérieur pour fermer */}
         <TouchableOpacity style={styles.backdrop} activeOpacity={1} onPress={onClose} />
 
-        {/* Tiroir coulissant latéral */}
-        <SafeAreaView style={styles.drawerContainer}>
-          {/* En-tête Profil Utilisateur inspiré d'Empire mais modernisé */}
-          <View style={styles.profileSection}>
-            <View style={styles.avatarCircle}>
-              <Text style={styles.avatarInitials}>MO</Text>
-            </View>
-            <Text style={styles.userName}>{user.name}</Text>
-            <TouchableOpacity onPress={() => { onClose(); onNavigate('profile'); }}>
-              <Text style={styles.userRole}>Mon Compte • {user.role}</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.separator} />
-
-          {/* Liste des Menus */}
-          <ScrollView style={styles.menuScroll} showsVerticalScrollIndicator={false}>
-            {menuItems.map((item) => (
-              <TouchableOpacity
-                key={item.id}
-                style={styles.menuRow}
-                onPress={item.action}
-                activeOpacity={0.7}
-              >
-                <View style={styles.iconCircle}>
-                  <Text style={styles.iconText}>{item.icon}</Text>
-                </View>
-                <View style={styles.menuTextContainer}>
-                  <Text style={styles.menuLabel}>{item.label}</Text>
-                  {item.badge && (
-                    <Text style={styles.menuBadge}>{item.badge}</Text>
-                  )}
-                </View>
-                <Text style={styles.chevron}>›</Text>
+        {/* Tiroir coulissant latéral avec compensation StatusBar Android */}
+        <SafeAreaView style={styles.drawerSafeArea}>
+          <View style={styles.drawerContainer}>
+            {/* En-tête Profil Utilisateur */}
+            <View style={styles.profileSection}>
+              <View style={styles.avatarCircle}>
+                <Text style={styles.avatarInitials}>MO</Text>
+              </View>
+              <Text style={styles.userName}>{user.name}</Text>
+              <TouchableOpacity onPress={() => { onClose(); onNavigate('profile'); }}>
+                <Text style={styles.userRole}>Mon Compte • {user.role}</Text>
               </TouchableOpacity>
-            ))}
-          </ScrollView>
+            </View>
 
-          {/* Pied de Tiroir */}
-          <View style={styles.footer}>
-            <TouchableOpacity style={styles.logoutButton} onPress={onClose}>
-              <Text style={styles.logoutText}>Se déconnecter</Text>
-            </TouchableOpacity>
-            <Text style={styles.versionText}>CashPlay Music v1.0.0</Text>
+            <View style={styles.separator} />
+
+            {/* Liste des Menus Épurée (sans les badges/sous-titres verts) */}
+            <ScrollView style={styles.menuScroll} showsVerticalScrollIndicator={false}>
+              {menuItems.map((item) => (
+                <TouchableOpacity
+                  key={item.id}
+                  style={styles.menuRow}
+                  onPress={item.action}
+                  activeOpacity={0.7}
+                >
+                  <View style={styles.iconCircle}>
+                    <Text style={styles.iconText}>{item.icon}</Text>
+                  </View>
+                  <View style={styles.menuTextContainer}>
+                    <Text style={styles.menuLabel}>{item.label}</Text>
+                  </View>
+                  <Text style={styles.chevron}>›</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+
+            {/* Pied de Tiroir aéré */}
+            <View style={styles.footer}>
+              <TouchableOpacity style={styles.logoutButton} onPress={onClose}>
+                <Text style={styles.logoutText}>Se déconnecter</Text>
+              </TouchableOpacity>
+              <Text style={styles.versionText}>v1.0.0</Text>
+            </View>
           </View>
         </SafeAreaView>
       </View>
@@ -180,11 +177,16 @@ const styles = StyleSheet.create({
   backdrop: {
     flex: 1,
   },
-  drawerContainer: {
+  drawerSafeArea: {
     width: '82%',
     maxWidth: 320,
     backgroundColor: '#0e1013',
     height: '100%',
+    paddingTop: Platform.OS === 'android' ? (StatusBar.currentHeight || 28) : 0,
+  },
+  drawerContainer: {
+    flex: 1,
+    backgroundColor: '#0e1013',
     borderRightWidth: 1,
     borderRightColor: 'rgba(0,138,59,0.3)',
     shadowColor: '#008A3B',
@@ -194,35 +196,36 @@ const styles = StyleSheet.create({
   },
   profileSection: {
     alignItems: 'center',
-    paddingVertical: 24,
+    paddingTop: 18,
+    paddingBottom: 20,
     paddingHorizontal: 16,
     backgroundColor: '#121519',
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255,255,255,0.06)',
   },
   avatarCircle: {
-    width: 68,
-    height: 68,
-    borderRadius: 34,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
     backgroundColor: CashPlayColors.primary,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: '#FFF',
-    marginBottom: 10,
+    marginBottom: 8,
     shadowColor: '#000',
     shadowOpacity: 0.4,
     shadowRadius: 6,
     elevation: 6,
   },
   avatarInitials: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: '900',
     color: '#FFF',
     letterSpacing: 1,
   },
   userName: {
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: '800',
     color: CashPlayColors.textPrimary,
   },
@@ -231,7 +234,6 @@ const styles = StyleSheet.create({
     color: CashPlayColors.primary,
     fontWeight: '700',
     marginTop: 3,
-    textDecorationLine: 'underline',
   },
   separator: {
     height: 1,
@@ -239,13 +241,13 @@ const styles = StyleSheet.create({
   },
   menuScroll: {
     flex: 1,
-    paddingVertical: 10,
+    paddingVertical: 6,
   },
   menuRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 13,
-    paddingHorizontal: 18,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255,255,255,0.04)',
   },
@@ -256,24 +258,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,138,59,0.15)',
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 14,
+    marginRight: 12,
   },
   iconText: {
-    fontSize: 15,
+    fontSize: 14,
   },
   menuTextContainer: {
     flex: 1,
   },
   menuLabel: {
-    fontSize: 13,
+    fontSize: 13.5,
     fontWeight: '700',
     color: '#EDEDED',
-  },
-  menuBadge: {
-    fontSize: 10,
-    fontWeight: '800',
-    color: CashPlayColors.primary,
-    marginTop: 2,
   },
   chevron: {
     fontSize: 18,
@@ -281,7 +277,8 @@ const styles = StyleSheet.create({
     fontWeight: '300',
   },
   footer: {
-    padding: 16,
+    paddingVertical: 14,
+    paddingHorizontal: 18,
     borderTopWidth: 1,
     borderTopColor: 'rgba(255,255,255,0.06)',
     flexDirection: 'row',
@@ -289,14 +286,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#0a0c0e',
   },
+  logoutButton: {
+    paddingVertical: 4,
+  },
   logoutText: {
     color: '#EF4444',
-    fontSize: 12,
+    fontSize: 12.5,
     fontWeight: '800',
   },
   versionText: {
     color: CashPlayColors.textMuted,
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '600',
   },
 });

@@ -235,7 +235,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         <View style={styles.filtersRow}>
           {[
             { key: 'ALL', label: 'Toutes les Musiques' },
-            { key: 'PREORDERS', label: '✨ Préventes J-14' },
+            { key: 'PREORDERS', label: '✨ Préventes Exclusives' },
             { key: 'POPULAR', label: '🔥 Top Ventes' },
           ].map((f) => (
             <TouchableOpacity
@@ -295,12 +295,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                   {item.title} <Text style={styles.trackArtistSeparator}>- {item.artist}</Text>
                 </Text>
 
-                {/* Prix en XOF et Nombre de Ventes (comme sur Empire) */}
+                {/* Prix en XOF et Nombre de Ventes (avec badge net et espacé) */}
                 <View style={styles.priceAndSalesRow}>
                   <Text style={styles.priceXOFText}>{item.priceXOF}</Text>
-                  <Text style={styles.salesCountText}>
-                    {item.salesCount} {item.salesCount > 1 ? 'Ventes' : 'Vente'}
-                  </Text>
+                  <View style={styles.salesBadge}>
+                    <Text style={styles.salesCountText}>
+                      {item.salesCount} {item.salesCount > 1 ? 'ventes' : 'vente'}
+                    </Text>
+                  </View>
                 </View>
               </View>
             </TouchableOpacity>
@@ -398,7 +400,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingBottom: 110,
+    paddingBottom: 135,
   },
   bannerCarousel: {
     marginTop: 12,
@@ -551,15 +553,25 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 6,
+    flexWrap: 'wrap',
+    gap: 4,
   },
   priceXOFText: {
     color: '#008A3B',
     fontSize: 12,
     fontWeight: '900',
   },
+  salesBadge: {
+    backgroundColor: 'rgba(245,158,11,0.12)',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: 'rgba(245,158,11,0.3)',
+  },
   salesCountText: {
-    color: '#F59E0B', // Jaune/or élégant rappelant Empire Afrique
-    fontSize: 11,
-    fontWeight: '700',
+    color: '#F59E0B',
+    fontSize: 10,
+    fontWeight: '800',
   },
 });

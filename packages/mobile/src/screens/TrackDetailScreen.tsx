@@ -11,6 +11,8 @@ import {
   Modal,
   TextInput,
   Share,
+  Platform,
+  StatusBar,
 } from 'react-native';
 import { CashPlayColors } from '../theme/colors';
 import { PaymentMethodModal, PaymentTrackData } from '../components/PaymentMethodModal';
@@ -394,6 +396,7 @@ const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
     backgroundColor: '#0c0d0e',
+    paddingTop: Platform.OS === 'android' ? (StatusBar.currentHeight || 28) : 0,
   },
   topHeader: {
     flexDirection: 'row',
