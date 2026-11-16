@@ -9,7 +9,10 @@
   "scripts": {
     "test": "npm run test --workspaces --if-present",
     "build": "npm run build --workspaces --if-present",
-    "dev:backend": "npm run dev --workspace=packages/backend"
+    "dev:backend": "npm run dev --workspace=packages/backend",
+    "dev:web": "npm run dev --workspace=packages/web",
+    "mobile": "npm run start --workspace=packages/mobile",
+    "mobile:tunnel": "npm run start --workspace=packages/mobile -- --tunnel"
   },
   "keywords": [
     "music",
