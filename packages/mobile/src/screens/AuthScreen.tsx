@@ -96,7 +96,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onLoginSuccess }) => {
             />
           </View>
           <Text style={styles.brandTagline}>
-            La musique africaine légale, directe et équitable.
+            La musique prend de la valeur.
           </Text>
         </View>
 

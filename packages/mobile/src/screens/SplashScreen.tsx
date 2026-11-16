@@ -156,7 +156,7 @@ export const AnimatedSplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) 
           CashPlay <Text style={{ color: CashPlayColors.primary }}>MUSIC</Text>
         </Text>
         <Text style={styles.brandSlogan}>
-          La musique africaine légale et directe
+          La musique prend de la valeur.
         </Text>
       </Animated.View>
 
