@@ -6,23 +6,46 @@ import { HomeScreen } from './src/screens/HomeScreen';
 import { LibraryScreen } from './src/screens/LibraryScreen';
 import { ProfileScreen } from './src/screens/ProfileScreen';
 import { MiniPlayer } from './src/components/MiniPlayer';
+import { SideDrawer } from './src/components/SideDrawer';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'home' | 'library' | 'profile'>('home');
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
 
+      {/* Tiroir latéral inspiré d'Empire Afrique */}
+      <SideDrawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        onNavigate={(tab) => {
+          setActiveTab(tab);
+          setIsDrawerOpen(false);
+        }}
+        user={{
+          name: 'Maxime Ouattara',
+          role: 'Auditeur & Créateur',
+          phone: '+226 70 00 00 00',
+        }}
+      />
+
       {/* Écran actif */}
       <View style={styles.screenContainer}>
-        {activeTab === 'home' && <HomeScreen onNavigateToLibrary={() => setActiveTab('library')} />}
+        {activeTab === 'home' && (
+          <HomeScreen
+            onOpenDrawer={() => setIsDrawerOpen(true)}
+            onNavigateToLibrary={() => setActiveTab('library')}
+            onNavigateToProfile={() => setActiveTab('profile')}
+          />
+        )}
         {activeTab === 'library' && <LibraryScreen />}
         {activeTab === 'profile' && <ProfileScreen />}
       </View>
 
-      {/* Mini Lecteur Audio Flottant */}
-      <MiniPlayer />
+      {/* Mini Lecteur Audio Flottant style Empire Afrique */}
+      <MiniPlayer onNavigateToLibrary={() => setActiveTab('library')} />
 
       {/* Barre d'onglets de navigation inférieure */}
       <View style={styles.tabBar}>
@@ -39,7 +62,7 @@ export default function App() {
           onPress={() => setActiveTab('library')}
         >
           <Text style={[styles.tabIcon, activeTab === 'library' && styles.tabActive]}>🎵</Text>
-          <Text style={[styles.tabLabel, activeTab === 'library' && styles.tabActive]}>Mes Sons</Text>
+          <Text style={[styles.tabLabel, activeTab === 'library' && styles.tabActive]}>Mes Achats</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -47,7 +70,7 @@ export default function App() {
           onPress={() => setActiveTab('profile')}
         >
           <Text style={[styles.tabIcon, activeTab === 'profile' && styles.tabActive]}>👤</Text>
-          <Text style={[styles.tabLabel, activeTab === 'profile' && styles.tabActive]}>Profil</Text>
+          <Text style={[styles.tabLabel, activeTab === 'profile' && styles.tabActive]}>Mon Compte</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -67,10 +90,10 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 54,
+    height: 56,
     backgroundColor: '#0a0a0c',
     borderTopWidth: 1,
-    borderTopColor: CashPlayColors.border,
+    borderTopColor: 'rgba(255,255,255,0.08)',
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',

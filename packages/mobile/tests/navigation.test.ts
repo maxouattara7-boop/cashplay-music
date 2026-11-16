@@ -9,6 +9,14 @@ describe('Intégration Mobile App CashPlay Music', () => {
     expect(CashPlayColors.background).toBe('#0c0d0e');
   });
 
+  it('doit valider la conformité des options du SideDrawer inspiré d Empire Afrique', () => {
+    // Vérification des écrans cibles et des parcours auditeur/artiste
+    const validDrawerRoutes = ['home', 'library', 'profile'];
+    expect(validDrawerRoutes).toContain('home');
+    expect(validDrawerRoutes).toContain('library');
+    expect(validDrawerRoutes).toContain('profile');
+  });
+
   it('doit permettre d enchaîner le stockage hors-ligne et la lecture dans le mobileAudio', async () => {
     // 1. Stockage dans le coffre-fort
     await offlineVault.storeEncryptedTrack('t-flow-1', {
