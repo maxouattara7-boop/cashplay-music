@@ -17,6 +17,7 @@ interface SideDrawerProps {
   isOpen: boolean;
   onClose: () => void;
   onNavigate: (screen: 'home' | 'library' | 'profile') => void;
+  onLogout?: () => void;
   user?: {
     name: string;
     role: string;
@@ -28,6 +29,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
   isOpen,
   onClose,
   onNavigate,
+  onLogout,
   user = { name: 'Maxime Ouattara', role: 'Auditeur & Créateur', phone: '+226 70 XX XX XX' },
 }) => {
   if (!isOpen) return null;
@@ -156,7 +158,13 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
 
             {/* Pied de Tiroir aéré */}
             <View style={styles.footer}>
-              <TouchableOpacity style={styles.logoutButton} onPress={onClose}>
+              <TouchableOpacity
+                style={styles.logoutButton}
+                onPress={() => {
+                  onClose();
+                  if (onLogout) onLogout();
+                }}
+              >
                 <Text style={styles.logoutText}>Se déconnecter</Text>
               </TouchableOpacity>
               <Text style={styles.versionText}>v1.0.0</Text>

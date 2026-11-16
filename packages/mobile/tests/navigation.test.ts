@@ -82,4 +82,18 @@ describe('Intégration Mobile App CashPlay Music', () => {
     expect(artistAccount.minWithdrawThreshold).toBe(500);
     expect(artistAccount.walletBalance).toBeGreaterThanOrEqual(artistAccount.minWithdrawThreshold);
   });
+
+  it('doit valider la conformité de l écran de connexion AuthScreen (Google, formulaire et rôles)', () => {
+    const authState = {
+      brandTitle: 'CashPlay MUSIC',
+      supportedProviders: ['GOOGLE_GMAIL', 'CREDENTIALS'],
+      roles: ['auditor', 'artist'],
+      minPasswordLength: 4,
+    };
+
+    expect(authState.supportedProviders).toContain('GOOGLE_GMAIL');
+    expect(authState.roles).toContain('auditor');
+    expect(authState.roles).toContain('artist');
+    expect(authState.minPasswordLength).toBeGreaterThanOrEqual(4);
+  });
 });

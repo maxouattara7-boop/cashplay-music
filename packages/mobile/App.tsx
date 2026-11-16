@@ -8,11 +8,27 @@ import { ProfileScreen } from './src/screens/ProfileScreen';
 import { TrackDetailScreen, TrackDetailData } from './src/screens/TrackDetailScreen';
 import { MiniPlayer } from './src/components/MiniPlayer';
 import { SideDrawer } from './src/components/SideDrawer';
+import { AuthScreen, UserAuthData } from './src/screens/AuthScreen';
 
 export default function App() {
+  const [currentUser, setCurrentUser] = useState<UserAuthData | null>({
+    name: 'Maxime Ouattara',
+    identifier: 'maxime.ouattara@gmail.com',
+    role: 'auditor',
+  });
   const [activeTab, setActiveTab] = useState<'home' | 'library' | 'profile'>('home');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedTrack, setSelectedTrack] = useState<TrackDetailData | null>(null);
+
+  // Si l'utilisateur n'est pas connecté, afficher la page de connexion épurée avec fond vert et logo CashPlay
+  if (!currentUser) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <StatusBar style="light" />
+        <AuthScreen onLoginSuccess={(user) => setCurrentUser(user)} />
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -39,10 +55,14 @@ export default function App() {
               setActiveTab(tab);
               setIsDrawerOpen(false);
             }}
+            onLogout={() => {
+              setIsDrawerOpen(false);
+              setCurrentUser(null);
+            }}
             user={{
-              name: 'Maxime Ouattara',
-              role: 'Auditeur & Créateur',
-              phone: '+226 70 00 00 00',
+              name: currentUser.name,
+              role: currentUser.role === 'artist' ? 'Artiste Créateur' : 'Mélomane & Auditeur',
+              phone: currentUser.identifier,
             }}
           />
 
@@ -58,7 +78,10 @@ export default function App() {
             )}
             {activeTab === 'library' && <LibraryScreen />}
             {activeTab === 'profile' && (
-              <ProfileScreen onNavigateToLibrary={() => setActiveTab('library')} />
+              <ProfileScreen
+                onNavigateToLibrary={() => setActiveTab('library')}
+                initialRole={currentUser.role}
+              />
             )}
           </View>
 
