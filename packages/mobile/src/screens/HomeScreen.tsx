@@ -404,7 +404,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingBottom: 135,
+    paddingBottom: 85,
   },
   bannerCarousel: {
     marginTop: 12,

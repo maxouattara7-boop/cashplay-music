@@ -111,7 +111,7 @@ export const MiniPlayer: React.FC<MiniPlayerProps> = ({ onPress, onNavigateToLib
 const styles = StyleSheet.create({
   outerContainer: {
     position: 'absolute',
-    bottom: 58,
+    bottom: 14,
     left: 8,
     right: 8,
     zIndex: 99,
