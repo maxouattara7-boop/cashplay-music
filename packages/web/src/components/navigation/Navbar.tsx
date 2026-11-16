@@ -14,16 +14,24 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuth, user }) => {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-black/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-3">
-          <div className="relative h-10 w-36">
+        {/* Logo & Slogan */}
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="relative h-11 w-11 flex-shrink-0 overflow-hidden rounded-xl border border-[#008A3B]/40 bg-white p-0.5 shadow-md shadow-[#008A3B]/20 transition-transform group-hover:scale-105">
             <Image
-              src="/logo CashPlay Music vert blanc.png"
+              src="/cashplay-logo.jpg"
               alt="CashPlay Music"
               fill
-              className="object-contain object-left"
+              className="object-contain"
               priority
             />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-base font-black tracking-tight text-white group-hover:text-[#008A3B] transition-colors">
+              CashPlay <span className="text-[#008A3B]">MUSIC</span>
+            </span>
+            <span className="text-[10px] font-medium text-gray-400 -mt-0.5 hidden xs:inline">
+              La musique prend de la valeur.
+            </span>
           </div>
         </Link>
 
@@ -75,9 +83,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAuth, user }) => {
                   Espace Label
                 </Link>
               )}
-              <div className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs">
-                <User className="h-3.5 w-3.5 text-[#008A3B]" />
-                <span className="font-medium text-white">{user.fullName || 'Mon Compte'}</span>
+              <div className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs border border-white/5">
+                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[#008A3B] text-[10px] font-bold text-white">
+                  {user.fullName ? user.fullName.substring(0, 2).toUpperCase() : 'CP'}
+                </div>
+                <div className="flex flex-col text-left">
+                  <span className="font-semibold text-white leading-tight">{user.fullName || 'Mon Compte'}</span>
+                  <span className="text-[9px] text-[#008A3B] font-medium leading-none">
+                    {user.role === 'ARTIST' ? 'Artiste Vérifié' : user.role === 'LABEL' ? 'Label Officiel' : 'Mélomane & Auditeur'}
+                  </span>
+                </div>
               </div>
             </div>
           ) : (

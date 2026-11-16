@@ -24,32 +24,54 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({ onBuyTrack }) => {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 bg-black/95 px-4 py-3 backdrop-blur-xl shadow-2xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
-        {/* Infos Titre & Pochette */}
-        <div className="flex items-center gap-3 w-1/4 min-w-[200px]">
-          <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg bg-zinc-800 shadow-md">
-            {currentTrack.coverUrl ? (
+        {/* Infos Titre & Vinyle animé avec Logo CashPlay */}
+        <div className="flex items-center gap-3 w-1/3 min-w-[240px]">
+          {/* Disque Vinyle Rotatif avec Logo CashPlay */}
+          <div
+            className={`relative h-12 w-12 flex-shrink-0 rounded-full border-2 border-[#F59E0B] bg-black p-1 shadow-lg shadow-[#008A3B]/20 transition-all ${
+              isPlaying ? 'animate-[spin_5s_linear_infinite]' : ''
+            }`}
+            title="Disque CashPlay en lecture"
+          >
+            <div className="relative h-full w-full overflow-hidden rounded-full bg-white">
               <Image
-                src={currentTrack.coverUrl}
-                alt={currentTrack.title}
+                src="/cashplay-logo.jpg"
+                alt="Logo CashPlay Music"
                 fill
-                className="object-cover"
+                className="object-contain p-0.5"
               />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center bg-[#006B2E] text-white font-bold">
-                CP
-              </div>
-            )}
+            </div>
+            {/* Centre vinyle acoustique */}
+            <div className="absolute inset-0 m-auto h-2 w-2 rounded-full border border-zinc-900 bg-[#F59E0B]" />
           </div>
-          <div className="overflow-hidden">
-            <div className="flex items-center gap-2">
-              <h4 className="truncate text-sm font-bold text-white">{currentTrack.title}</h4>
-              {currentTrack.isPreview && (
-                <span className="rounded bg-yellow-500/20 px-1.5 py-0.5 text-[10px] font-semibold text-yellow-400 border border-yellow-500/30">
-                  Extrait 30s
-                </span>
+
+          {/* Pochette Album & Infos */}
+          <div className="flex items-center gap-2.5 overflow-hidden">
+            <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-md bg-zinc-800 shadow-inner">
+              {currentTrack.coverUrl ? (
+                <Image
+                  src={currentTrack.coverUrl}
+                  alt={currentTrack.title}
+                  fill
+                  className="object-cover"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center bg-[#006B2E] text-white font-bold text-xs">
+                  CP
+                </div>
               )}
             </div>
-            <p className="truncate text-xs text-gray-400">{currentTrack.artistName}</p>
+            <div className="overflow-hidden">
+              <div className="flex items-center gap-1.5">
+                <h4 className="truncate text-sm font-bold text-white">{currentTrack.title}</h4>
+                {currentTrack.isPreview && (
+                  <span className="rounded bg-yellow-500/20 px-1 py-0.2 text-[9px] font-semibold text-yellow-400 border border-yellow-500/30">
+                    Extrait 30s
+                  </span>
+                )}
+              </div>
+              <p className="truncate text-xs text-gray-400">{currentTrack.artistName}</p>
+            </div>
           </div>
         </div>
 

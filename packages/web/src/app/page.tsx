@@ -5,6 +5,7 @@ import { Navbar } from '../components/navigation/Navbar';
 import { HeroBanner } from '../components/home/HeroBanner';
 import { PreOrderSection, PreOrderItem } from '../components/home/PreOrderSection';
 import { TrackCard, CatalogTrackItem } from '../components/home/TrackCard';
+import { TrackDetailModal } from '../components/home/TrackDetailModal';
 import { AudioPlayer } from '../components/player/AudioPlayer';
 import { ConversionPopup } from '../components/auth/ConversionPopup';
 import { AuthModal } from '../components/auth/AuthModal';
@@ -96,6 +97,8 @@ export default function HomePage() {
 
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [purchaseTarget, setPurchaseTarget] = useState<PurchaseTarget | null>(null);
+  const [selectedTrackForDetail, setSelectedTrackForDetail] = useState<CatalogTrackItem | null>(null);
+  const [purchasedTrackIds, setPurchasedTrackIds] = useState<string[]>([]);
   const [selectedGenre, setSelectedGenre] = useState('Tous');
 
   const filteredCatalog = selectedGenre === 'Tous'
@@ -168,6 +171,7 @@ export default function HomePage() {
               <TrackCard
                 key={track.id}
                 track={track}
+                onOpenDetail={(t) => setSelectedTrackForDetail(t)}
                 onBuyClick={(t) =>
                   setPurchaseTarget({
                     id: t.id,
@@ -209,12 +213,32 @@ export default function HomePage() {
       {/* Modale d'Authentification / Inscription */}
       <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} />
 
+      {/* Fiche Détail Titre / Modal avec Teaser Vidéo et Commentaires Réservés */}
+      <TrackDetailModal
+        track={selectedTrackForDetail}
+        isOpen={Boolean(selectedTrackForDetail)}
+        onClose={() => setSelectedTrackForDetail(null)}
+        isPurchased={Boolean(selectedTrackForDetail && purchasedTrackIds.includes(selectedTrackForDetail.id))}
+        onBuy={(t, isVip) => {
+          setPurchaseTarget({
+            id: t.id,
+            title: isVip ? `${t.title} (Pack VIP 👑)` : t.title,
+            artistName: t.artistName,
+            coverUrl: t.coverUrl,
+            priceXOF: isVip ? Math.round(t.priceXOF * 2.5) : t.priceXOF,
+          });
+        }}
+      />
+
       {/* Modale d'Achat Mobile Money SasPay */}
       <PurchaseModal
         target={purchaseTarget}
         onClose={() => setPurchaseTarget(null)}
         onSuccess={(t) => {
           console.log('Achat confirmé pour :', t.title);
+          if (selectedTrackForDetail) {
+            setPurchasedTrackIds((prev) => [...prev, selectedTrackForDetail.id]);
+          }
         }}
       />
     </div>
