@@ -1,5 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Animated } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Animated,
+  Easing,
+} from 'react-native';
 import { CashPlayColors } from '../theme/colors';
 import { mobileAudio, AudioTrack } from '../services/audioManager.service';
 
@@ -12,7 +20,29 @@ export const MiniPlayer: React.FC<MiniPlayerProps> = ({ onPress, onNavigateToLib
   const [currentTrack, setCurrentTrack] = useState<AudioTrack | null>(mobileAudio.getCurrentTrack());
   const [isPlaying, setIsPlaying] = useState<boolean>(mobileAudio.isPlaying());
 
-  // Mise à jour de l'état toutes les 500ms
+  // Animation de rotation continue à 360° pour le logo en forme de disque
+  const spinValue = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    const spinLoop = Animated.loop(
+      Animated.timing(spinValue, {
+        toValue: 1,
+        duration: 5000, // 5 secondes pour une rotation fluide et élégante
+        easing: Easing.linear,
+        useNativeDriver: true,
+      })
+    );
+    spinLoop.start();
+
+    return () => spinLoop.stop();
+  }, [spinValue]);
+
+  const spin = spinValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
+
+  // Mise à jour de l'état audio
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTrack(mobileAudio.getCurrentTrack());
@@ -22,11 +52,11 @@ export const MiniPlayer: React.FC<MiniPlayerProps> = ({ onPress, onNavigateToLib
     return () => clearInterval(interval);
   }, []);
 
-  // Démo fallback si aucun morceau n'a encore été lancé
+  // Démo fallback (Yam Wêmdé - Smarty ou Moms Loup)
   const track = currentTrack || {
     id: 'demo-1',
-    title: 'Démo CashPlay Music',
-    artistName: 'Moms Loup • 15.01',
+    title: 'Yam Wêmdé',
+    artistName: 'Smarty',
     coverUrl: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=300&auto=format&fit=crop&q=80',
     audioUri: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
     durationSeconds: 30,
@@ -53,14 +83,18 @@ export const MiniPlayer: React.FC<MiniPlayerProps> = ({ onPress, onNavigateToLib
         activeOpacity={0.9}
         onPress={onNavigateToLibrary || onPress}
       >
-        {/* Disque Vinyle / Vignette gauche style Empire */}
-        <View style={styles.vinylContainer}>
+        {/* Cercle avec le logo officiel CashPlay animé qui tourne continuellement */}
+        <Animated.View
+          style={[
+            styles.rotatingLogoCircle,
+            { transform: [{ rotate: spin }] },
+          ]}
+        >
           <Image
-            source={{ uri: track.coverUrl }}
-            style={styles.vinylImage}
+            source={require('../../assets/cashplay-logo.jpg')}
+            style={styles.logoDiscImage}
           />
-          <View style={styles.vinylCenterHole} />
-        </View>
+        </Animated.View>
 
         {/* Détails du morceau */}
         <View style={styles.infoContainer}>
@@ -68,11 +102,11 @@ export const MiniPlayer: React.FC<MiniPlayerProps> = ({ onPress, onNavigateToLib
             {track.title}
           </Text>
           <Text style={styles.trackArtist} numberOfLines={1}>
-            {track.artistName} {track.isPreview ? '• Démo 30s' : ''}
+            {track.artistName} {track.isPreview ? '• Extrait' : ''}
           </Text>
         </View>
 
-        {/* Commandes audio : Précédent, Play/Pause, Suivant (comme Empire) */}
+        {/* Commandes audio : Précédent, Play/Pause, Suivant */}
         <View style={styles.controlsRow}>
           {/* Précédent */}
           <TouchableOpacity
@@ -83,7 +117,7 @@ export const MiniPlayer: React.FC<MiniPlayerProps> = ({ onPress, onNavigateToLib
             <Text style={styles.navIcon}>⏮</Text>
           </TouchableOpacity>
 
-          {/* Play / Pause Principal */}
+          {/* Play / Pause Principal en bouton or vibrant */}
           <TouchableOpacity
             style={styles.mainPlayBtn}
             onPress={handleTogglePlay}
@@ -118,7 +152,7 @@ const styles = StyleSheet.create({
   },
   capsule: {
     height: 56,
-    backgroundColor: '#0a1d12', // Fond vert profond élégant (mieux qu'Empire)
+    backgroundColor: '#0a1d12', // Fond vert profond signature
     borderRadius: 28,
     flexDirection: 'row',
     alignItems: 'center',
@@ -131,32 +165,26 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 10,
   },
-  vinylContainer: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
+  rotatingLogoCircle: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     overflow: 'hidden',
-    position: 'relative',
-    backgroundColor: '#000',
+    backgroundColor: '#FFFFFF',
     borderWidth: 1.5,
-    borderColor: '#F59E0B',
+    borderColor: '#008A3B',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
+    shadowColor: '#008A3B',
+    shadowOpacity: 0.4,
+    shadowRadius: 6,
+    elevation: 4,
   },
-  vinylImage: {
+  logoDiscImage: {
     width: '100%',
     height: '100%',
-    resizeMode: 'cover',
-  },
-  vinylCenterHole: {
-    position: 'absolute',
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: '#000',
-    borderWidth: 1,
-    borderColor: '#F59E0B',
+    resizeMode: 'contain',
   },
   infoContainer: {
     flex: 1,
@@ -164,13 +192,13 @@ const styles = StyleSheet.create({
   },
   trackTitle: {
     color: '#FFFFFF',
-    fontSize: 12,
-    fontWeight: '800',
+    fontSize: 13,
+    fontWeight: '900',
     letterSpacing: 0.3,
   },
   trackArtist: {
     color: '#A1A1AA',
-    fontSize: 10.5,
+    fontSize: 11,
     fontWeight: '600',
     marginTop: 1,
   },
@@ -186,15 +214,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   navIcon: {
-    color: '#F59E0B', // Or élégant comme sur la capture Empire
+    color: '#F59E0B',
     fontSize: 14,
     fontWeight: 'bold',
   },
   mainPlayBtn: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
-    backgroundColor: '#F59E0B', // Bouton doré vibrant
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#F59E0B', // Bouton doré rond comme sur la capture
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#F59E0B',
@@ -204,7 +232,7 @@ const styles = StyleSheet.create({
   },
   mainPlayIcon: {
     color: '#000',
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '900',
     marginLeft: 1,
   },
