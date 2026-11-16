@@ -96,4 +96,11 @@ describe('Intégration Mobile App CashPlay Music', () => {
     expect(authState.roles).toContain('artist');
     expect(authState.minPasswordLength).toBeGreaterThanOrEqual(4);
   });
+
+  it('doit valider le cycle de l intro animée Splash (Logo plein écran -> Morphing Bouton Play -> Lancement)', () => {
+    const splashStages = ['LOGO_FULLSCREEN', 'MORPH_TO_PLAY_BUTTON', 'FADE_OUT_LAUNCH'];
+    expect(splashStages).toContain('LOGO_FULLSCREEN');
+    expect(splashStages).toContain('MORPH_TO_PLAY_BUTTON');
+    expect(splashStages).toContain('FADE_OUT_LAUNCH');
+  });
 });

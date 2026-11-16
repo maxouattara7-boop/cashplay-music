@@ -9,8 +9,10 @@ import { TrackDetailScreen, TrackDetailData } from './src/screens/TrackDetailScr
 import { MiniPlayer } from './src/components/MiniPlayer';
 import { SideDrawer } from './src/components/SideDrawer';
 import { AuthScreen, UserAuthData } from './src/screens/AuthScreen';
+import { AnimatedSplashScreen } from './src/screens/SplashScreen';
 
 export default function App() {
+  const [isSplashFinished, setIsSplashFinished] = useState(false);
   const [currentUser, setCurrentUser] = useState<UserAuthData | null>({
     name: 'Maxime Ouattara',
     identifier: 'maxime.ouattara@gmail.com',
@@ -20,7 +22,12 @@ export default function App() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedTrack, setSelectedTrack] = useState<TrackDetailData | null>(null);
 
-  // Si l'utilisateur n'est pas connecté, afficher la page de connexion épurée avec fond vert et logo CashPlay
+  // 1. ANIMATION D'OUVERTURE PLEINE PAGE (Logo animé se métamorphosant en bouton Play)
+  if (!isSplashFinished) {
+    return <AnimatedSplashScreen onFinish={() => setIsSplashFinished(true)} />;
+  }
+
+  // 2. Si l'utilisateur n'est pas connecté, afficher la page de connexion épurée
   if (!currentUser) {
     return (
       <SafeAreaView style={styles.container}>
