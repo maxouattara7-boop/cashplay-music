@@ -141,19 +141,22 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
   return (
     <View style={styles.container}>
-      {/* 1. HEADER SUPÉRIEUR ÉLÉGANT (Inspiré d'Empire Afrique avec Hamburger + Actions Circulaires) */}
+      {/* 1. HEADER SUPÉRIEUR ÉLÉGANT (Logo Officiel CashPlay cliquable ouvrant le menu) */}
       <View style={styles.topHeader}>
-        {/* Bouton Hamburger pour ouvrir le Drawer latéral */}
-        <TouchableOpacity style={styles.hamburgerButton} onPress={onOpenDrawer} activeOpacity={0.7}>
-          <Text style={styles.hamburgerIcon}>☰</Text>
+        {/* Logo Officiel CashPlay qui remplace CashPlay MUSIC et les 3 tirets (clic pour ouvrir le menu) */}
+        <TouchableOpacity
+          style={styles.headerLogoButton}
+          onPress={onOpenDrawer}
+          activeOpacity={0.8}
+          accessibilityLabel="Ouvrir le menu CashPlay"
+        >
+          <View style={styles.logoImageWrapper}>
+            <Image
+              source={require('../../assets/cashplay-logo.jpg')}
+              style={styles.headerLogoImage}
+            />
+          </View>
         </TouchableOpacity>
-
-        {/* Logo / Nom de la marque */}
-        <View style={styles.brandContainer}>
-          <Text style={styles.brandTitle}>
-            CashPlay <Text style={{ color: CashPlayColors.primary }}>MUSIC</Text>
-          </Text>
-        </View>
 
         {/* Actions circulaires à droite (comme sur Empire Afrique) */}
         <View style={styles.headerRightActions}>
@@ -322,35 +325,36 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 14,
-    paddingTop: 12,
-    paddingBottom: 12,
+    paddingHorizontal: 16,
+    paddingTop: 10,
+    paddingBottom: 10,
     backgroundColor: '#0a0c0e',
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255,255,255,0.06)',
   },
-  hamburgerButton: {
-    width: 38,
-    height: 38,
-    borderRadius: 10,
-    backgroundColor: 'rgba(255,255,255,0.06)',
+  headerLogoButton: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    paddingVertical: 2,
   },
-  hamburgerIcon: {
-    fontSize: 20,
-    color: '#FFF',
-    fontWeight: 'bold',
+  logoImageWrapper: {
+    width: 46,
+    height: 46,
+    borderRadius: 12,
+    overflow: 'hidden',
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1.5,
+    borderColor: '#008A3B',
+    shadowColor: '#008A3B',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.35,
+    shadowRadius: 5,
+    elevation: 4,
   },
-  brandContainer: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  brandTitle: {
-    fontSize: 18,
-    fontWeight: '900',
-    color: '#FFF',
-    letterSpacing: 0.5,
+  headerLogoImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
   },
   headerRightActions: {
     flexDirection: 'row',

@@ -10,6 +10,7 @@ import {
   ScrollView,
   StatusBar,
   ActivityIndicator,
+  Image,
 } from 'react-native';
 import { CashPlayColors } from '../theme/colors';
 
@@ -90,17 +91,14 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onLoginSuccess }) => {
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
-        {/* LOGO & IDENTITÉ CASHPLAY MUSIC */}
+        {/* LOGO OFFICIEL & IDENTITÉ CASHPLAY MUSIC */}
         <View style={styles.brandSection}>
-          <View style={styles.logoCircle}>
-            <View style={styles.logoVinylDisc}>
-              <Text style={styles.logoLetter}>CP</Text>
-            </View>
+          <View style={styles.logoWrapper}>
+            <Image
+              source={require('../../assets/cashplay-logo.jpg')}
+              style={styles.officialLogoImage}
+            />
           </View>
-
-          <Text style={styles.brandTitle}>
-            CashPlay <Text style={{ color: CashPlayColors.primary }}>MUSIC</Text>
-          </Text>
           <Text style={styles.brandTagline}>
             La musique africaine légale, directe et équitable.
           </Text>
@@ -321,44 +319,26 @@ const styles = StyleSheet.create({
   },
   brandSection: {
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 20,
   },
-  logoCircle: {
-    width: 74,
-    height: 74,
-    borderRadius: 37,
-    backgroundColor: 'rgba(0,138,59,0.25)',
+  logoWrapper: {
+    width: 90,
+    height: 90,
+    borderRadius: 20,
+    overflow: 'hidden',
+    backgroundColor: '#FFFFFF',
     borderWidth: 2,
     borderColor: '#008A3B',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 12,
+    marginBottom: 10,
     shadowColor: '#008A3B',
     shadowOpacity: 0.5,
-    shadowRadius: 12,
+    shadowRadius: 14,
     elevation: 8,
   },
-  logoVinylDisc: {
-    width: 58,
-    height: 58,
-    borderRadius: 29,
-    backgroundColor: '#0a0c0e',
-    borderWidth: 1.5,
-    borderColor: '#F59E0B',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logoLetter: {
-    color: '#008A3B',
-    fontSize: 22,
-    fontWeight: '900',
-    letterSpacing: 1,
-  },
-  brandTitle: {
-    fontSize: 26,
-    fontWeight: '900',
-    color: '#FFFFFF',
-    letterSpacing: 0.5,
+  officialLogoImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
   },
   brandTagline: {
     fontSize: 12.5,
