@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: 'CashPlay Music — Distribuer, Vendre, Écouter',
   description: 'La plateforme musicale africaine qui valorise les œuvres. Vente directe et préventes par Mobile Money et carte bancaire.',
   icons: {
-    icon: '/logo CashPlay Music vert blanc.png',
+    icon: '/cashplay-logo.jpg',
   },
 };
 
