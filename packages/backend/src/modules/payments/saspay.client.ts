@@ -11,9 +11,9 @@ export interface SasPayInitiateRequest {
 }
 
 export class SasPayClient {
-  private baseUrl: string;
-  private clientId: string;
-  private clientSecret: string;
+  public readonly baseUrl: string;
+  public readonly clientId: string;
+  public readonly clientSecret: string;
 
   constructor() {
     this.baseUrl = appConfig.saspay.baseUrl;

@@ -24,7 +24,8 @@ trackRouter.get('/', async (req: Request, res: Response) => {
 
 trackRouter.get('/:id', async (req: Request, res: Response) => {
   try {
-    const track = await trackService.getTrackById(req.params.id);
+    const id = req.params.id as string;
+    const track = await trackService.getTrackById(id);
     res.status(200).json(track);
   } catch (error: any) {
     res.status(404).json({ error: error.message });
@@ -53,7 +54,8 @@ releaseRouter.post('/', requireAuth, requireRole(UserRole.ARTIST, UserRole.LABEL
 
 releaseRouter.get('/:id', async (req: Request, res: Response) => {
   try {
-    const release = await releaseService.getReleaseById(req.params.id);
+    const id = req.params.id as string;
+    const release = await releaseService.getReleaseById(id);
     res.status(200).json(release);
   } catch (error: any) {
     res.status(404).json({ error: error.message });

@@ -1,0 +1,53 @@
+databases:
+  - name: cashplay-db
+    databaseName: cashplay_music
+    user: cashplay
+    plan: free
+    region: frankfurt
+
+services:
+  # Service 1 : API Backend CashPlay Music
+  - type: web
+    name: cashplay-api
+    runtime: node
+    plan: free
+    region: frankfurt
+    rootDir: packages/backend
+    buildCommand: npm install && npx prisma generate && npm run build
+    startCommand: npm run start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: cashplay-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: SASPAY_CLIENT_ID
+        value: sandbox_client_id
+      - key: SASPAY_CLIENT_SECRET
+        value: sandbox_client_secret
+      - key: SASPAY_BASE_URL
+        value: https://sandbox.saspay.me/api/v1
+      - key: SASPAY_WEBHOOK_SECRET
+        generateValue: true
+
+  # Service 2 : Application Web Next.js CashPlay Music
+  - type: web
+    name: cashplay-web
+    runtime: node
+    plan: free
+    region: frankfurt
+    rootDir: packages/web
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_URL
+        fromService:
+          type: web
+          name: cashplay-api
+          property: host

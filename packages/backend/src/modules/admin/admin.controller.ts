@@ -30,7 +30,8 @@ adminRouter.get('/releases/pending', async (_req: AuthRequest, res: Response) =>
 
 adminRouter.get('/releases/:id/export', async (req: AuthRequest, res: Response) => {
   try {
-    const release = await releaseService.getReleaseById(req.params.id);
+    const id = req.params.id as string;
+    const release = await releaseService.getReleaseById(id);
     const manifest = distributionExportService.generateDeliveryManifest(release);
     res.status(200).json(manifest);
   } catch (error: any) {
@@ -40,8 +41,9 @@ adminRouter.get('/releases/:id/export', async (req: AuthRequest, res: Response) 
 
 adminRouter.post('/payouts/:id/process', async (req: AuthRequest, res: Response) => {
   try {
+    const id = req.params.id as string;
     const { action, reason } = req.body;
-    const result = await adminService.processPayout(req.params.id, action, reason);
+    const result = await adminService.processPayout(id, action, reason);
     res.status(200).json(result);
   } catch (error: any) {
     res.status(400).json({ error: error.message });
